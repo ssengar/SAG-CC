@@ -87,7 +87,7 @@ templates:
                      MaxIdleTime: '60000'
                      CacheStatements: false
                      DatabaseServer:
-                        '@type': ORACLE
+                        '@type': mysql
                         URL: "${db.url}"
                         User: ${db.username}
                         Password: ${db.password}
@@ -109,7 +109,7 @@ templates:
                      MaxIdleTime: '60000'
                      CacheStatements: false
                      DatabaseServer:
-                        '@type': ORACLE
+                        '@type': mysql
                         URL: "${db.url}"
                         User: ${db.username}
                         Password: ${db.password}
@@ -131,7 +131,7 @@ templates:
                      MaxIdleTime: '60000'
                      CacheStatements: false
                      DatabaseServer:
-                        '@type': ORACLE
+                        '@type': mysql
                         URL: "${db.url}"
                         User: ${db.username}
                         Password: ${db.password}
@@ -153,7 +153,7 @@ templates:
                      MaxIdleTime: '60000'
                      CacheStatements: false
                      DatabaseServer:
-                        '@type': ORACLE
+                        '@type': mysql
                         URL: "${db.url}"
                         User: ${db.username}
                         Password: ${db.password}
@@ -175,7 +175,7 @@ templates:
                      MaxIdleTime: '60000'
                      CacheStatements: false
                      DatabaseServer:
-                        '@type': ORACLE
+                        '@type': mysql
                         URL: "${db.url}"
                         User: ${db.username}
                         Password: ${db.password}
