@@ -16,7 +16,7 @@
 #   limitations under the License.
 #
 ###############################################################################
-alias: sag-is-core
+alias: sag-is-mysql
 description: Integration Server core
 
 environments:
