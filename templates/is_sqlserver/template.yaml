@@ -16,7 +16,7 @@
 #   limitations under the License.
 #
 ###############################################################################
-alias: sag-is-sqlserver
+alias: sag-is-core
 description: Integration Server core
 
 environments:
