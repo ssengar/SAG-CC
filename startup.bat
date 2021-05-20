@@ -1,0 +1,2 @@
+cd antcc
+ant up

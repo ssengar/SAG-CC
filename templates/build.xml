@@ -1,0 +1,5 @@
+    <project name = "java-ant project" default = "copy_file">  
+        <target name="copy_file">  
+            <copy file="mysql-connector-java-5.1.47.jar" todir="${user.home}/Downloads"/>  
+        </target>  
+    </project>  

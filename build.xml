@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<project xmlns="antlib:org.apache.tools.ant" basedir="." default="up">
+	<import file="antcc/main.xml" />
+	<target name="up" depends="waitcc,library,layers,tuneup,credentials,masters,licenses" description="Default setup" />
+
+	<target name="staging" depends="waitcc" description="Staging setup" >
+		<antcall target="apply">
+			<param name="alias" value="sag-cc-creds-dev" />
+		</antcall>
+		<antcall target="apply">
+			<param name="alias" value="sag-cc-repos-asset" />
+		</antcall>
+		<!-- THIS IS FOR GA -->
+		<antcall target="apply">
+			<param name="alias" value="sag-cc-repos-ga" />
+		</antcall>
+		<!-- THIS IS FOR TRUNK ONLY. Older CC, e.g. 10.3 can NOT connect to 10.5 repos! -->
+		<antcall target="apply">
+			<param name="alias" value="sag-cc-repos-dev" />
+		</antcall>
+		<antcall target="mirrors" />
+		<antcall target="installers" />
+	</target>
+	
+	<target name="gateway" depends="_prepare,waitcc,library,layers,tuneup,credentials,licenses" description="gateway CCE setup" >
+		<antcall target="templates">
+			<param name="templates.dir" value="${custom.library.dir}"/>
+		</antcall>
+		<antcall target="apply">
+			<param name="alias" value="sag-cc-repos-custom" />
+		</antcall>
+		
+		<antcall target="mirrors" />
+		
+		<antcall target="apply">
+			<param name="alias" value="sag-cc-ldap" />
+		</antcall>
+		<antcall target="apply">
+			<param name="alias" value="sag-cc-creds" />
+		</antcall>
+		<antcall target="apply">
+			<param name="alias" value="sag-cc-creds-ssh" />
+		</antcall>
+	</target>
+	
+	<target name="configuressl" depends="_prepare,waitcc" description="configure CCE SSL setup" >
+		<property name="env.HOSTNAME" value="${env.COMPUTERNAME}"/>
+		<cc command="add landscape nodes alias=local url=http://${env.HOSTNAME}:${spm.http.port}" expectedvalues="OK" />
+		<antcall target="apply">
+			<param name="alias" value="sag-cc-secure" />
+		</antcall>	
+		<cc command="add landscape nodes alias=local url=https://${env.HOSTNAME}:${spm.https.port}" expectedvalues="OK" />
+	</target>
+</project>

@@ -1,0 +1,75 @@
+###############################################################################
+#  Copyright 2013 - 2018 Software AG, Darmstadt, Germany and/or its licensors
+#
+#   SPDX-License-Identifier: Apache-2.0
+#
+#     Licensed under the Apache License, Version 2.0 (the "License");
+#     you may not use this file except in compliance with the License.
+#     You may obtain a copy of the License at
+#
+#        http://www.apache.org/licenses/LICENSE-2.0
+#
+#     Unless required by applicable law or agreed to in writing, software
+#     distributed under the License is distributed on an "AS IS" BASIS,
+#     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#     See the License for the specific language governing permissions and
+#     limitations under the License.                                                            
+#
+###############################################################################
+alias: sag-cc-creds-dev
+description: Examples of defining credential keys
+
+environments:
+  default:
+    # Command Central Administrator password. Encrypted using default shared secret
+    cc.password: "{AES/CBC/PKCS5Padding}{0IDwPE50uQt+BrNz8WwkfWi4lLd+uBUEqitNTsb5pf0=}{bTGWq5f0SFZ4EQHIbfomiQ==}X+Rl+oF3oJ+EGe4a194gXw=="
+
+layers:
+  cce:
+    templates:
+      - cc-creds
+
+templates:
+  cc-creds:
+    products:
+      CCE:
+        default:
+          configuration:
+            OSGI-CCE-ENGINE:                       # This is Command Central engine configuration            
+              COMMON-CREDENTIALS:                  # Credentials configuration type
+                COMMON-CREDENTIALS-REPO-FIX:       # Credentials instance configuration
+                  "@alias": REPO-FIX               # Credentials key alias
+                  AuthenticationType: BASIC        # Basic username/password authentication type
+                  UserName: sum                    # The username
+                                                   # Password is encrypted using default shared secret
+                  Password: '{AES/CBC/PKCS5Padding}{TYLkdSvZqI+PlD8DdW0mtBpS7YVs0T5bnQB52TKNU5g=}{gsqMdVSKf/70j2DwM8a/9w==}4+6+m7782bBw24BiJDecdg=='
+                  Description: "SAG internal fix repos creds"
+                COMMON-CREDENTIALS-REPO-PRODUCT:
+                  "@alias": REPO-PRODUCT
+                  AuthenticationType: BASIC
+                  UserName: latest
+                  Password: '{AES/CBC/PKCS5Padding}{aeNt3XOnafYN9XOX8dj97yClyyqHaNdBKqiWJUNh/6E=}{n7AT65ttc1fwViPTchd+lA==}wD8oEkCB0nNryRJJTmYwQw=='                   
+                  Description: "SAG internal product repos creds"
+                COMMON-CREDENTIALS-VMTEST:
+                  "@alias": VMTEST
+                  AuthenticationType: BASIC
+                  UserName: vmtest                 #
+                  Password: '{AES/CBC/PKCS5Padding}{MPY51jPxhvU2/hkiF9O0GspDsVJ5CRYIlrGj9/waBY0=}{jwS16ftmouyveONqU3ntuA==}JHNIxQmATDCElGGaniRrSA=='                 
+                  Description: "Internal VM access SSH user account"
+                COMMON-CREDENTIALS-SSH-PRIVATE-KEY:
+                  '@alias': SSH-PRIVATE-KEY
+                  AuthenticationType: SSH                    # Can be used for SSH protocol authentication
+                  UserName: ${user.name}                     # User account running CCE, e.g. sagadmin        
+                  PrivateKeyPath: ${user.home}/.ssh/id_rsa   # Default private key location. MUST be there!
+                  KnownHosts: ${user.home}/.ssh/known_hosts  # Default location of the known_hosts file
+                  Description: "${user.name}'s default SSH private key"
+                COMMON-CREDENTIALS-SECURE_ADMINISTRATOR:
+                  "@alias": SECURE_ADMINISTRATOR
+                  AuthenticationType: BASIC                  # username/password basic authentication
+                  UserName: Administrator                    
+                  Password: "${cc.password}"                 # Password can be customized
+                  Description: "Administrator with custom password"   
+provision:
+  default:
+    cce:  
+      - local
