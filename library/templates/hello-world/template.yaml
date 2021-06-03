@@ -1,8 +1,0 @@
-alias: hello-world
-
-environments:
-  default:
-    hello.name: World
-    actions:
-      hello:
-        script: echo "************** Hello ${hello.name}! ***************"
